@@ -10,25 +10,16 @@ import "@uploadthing/react/styles.css";
 interface FileUploadProps {
   onChange: (url?: string) => void;
   value: string;
-  endpoint: "messageFile" | "serverImage"
+  endpoint: "messageFile" | "serverImage";
 }
 
-export const FileUpload = ({
-  onChange,
-  value,
-  endpoint
-}: FileUploadProps) => {
+export const FileUpload = ({ onChange, value, endpoint }: FileUploadProps) => {
   const fileType = value?.split(".").pop();
 
   if (value && fileType !== "pdf") {
     return (
       <div className="relative h-20 w-20">
-        <Image
-          fill
-          src={value}
-          alt="Upload"
-          className="rounded-full"
-        />
+        <Image fill src={value} alt="Upload" className="rounded-full" />
         <button
           onClick={() => onChange("")}
           className="bg-rose-500 text-white p-1 rounded-full absolute top-0 right-0 shadow-sm"
@@ -37,14 +28,14 @@ export const FileUpload = ({
           <X className="h-4 w-4" />
         </button>
       </div>
-    )
+    );
   }
 
   if (value && fileType === "pdf") {
     return (
       <div className="relative flex items-center p-2 mt-2 rounded-md bg-background/10">
         <FileIcon className="h-10 w-10 fill-indigo-200 stroke-indigo-400" />
-        <a 
+        <a
           href={value}
           target="_blank"
           rel="noopener noreferrer"
@@ -60,11 +51,18 @@ export const FileUpload = ({
           <X className="h-4 w-4" />
         </button>
       </div>
-    )
+    );
   }
 
   return (
     <UploadDropzone
+      appearance={{
+        label: `text-green-300 hover:text-green-400 hover:underline tracking-wide`,
+        allowedContent: `text-zinc-400 uppercase mt-2`,
+        container: "border-dashed border-2 px-4 py-2 border-zinc-500",
+        button:
+          "bg-fill-none border-2 border-green-400 text-green-200 hover:bg-green-100/10",
+      }}
       endpoint={endpoint}
       onClientUploadComplete={(res) => {
         onChange(res?.[0].url);
@@ -73,5 +71,5 @@ export const FileUpload = ({
         console.log(error);
       }}
     />
-  )
-}
+  );
+};
